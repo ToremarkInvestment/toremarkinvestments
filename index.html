@@ -1,19 +1,18 @@
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Toremark Investments AB</title>
-    <link rel="icon" type="image/png" href="favicon.png" />
     <meta
       name="description"
-      content="Toremark Investments AB är ett svenskt aktiebolag med fokus på förvärv av aktier i noterade bolag."
+      content="Toremark Investments AB is a Swedish limited company focused on acquiring shares in listed companies."
     />
     <meta name="author" content="Toremark Investments" />
     <link rel="stylesheet" href="styles.css" />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap"
     />
   </head>
   <body>
@@ -23,16 +22,16 @@
       <div class="container">
         <div class="logo" onclick="scrollToTop()">
           <img
-            src="Symbol.png"
+            src="Logo.png"
             alt="Toremark Investments Logo"
             class="logo-img"
           />
         </div>
 
         <nav class="nav-menu">
-          <a href="#">Hem</a>
-          <a href="#content">Om oss</a>
-          <a href="#contact">Kontakt</a>
+          <a href="#" onclick="scrollToTop()">Home</a>
+          <a href="#content" onclick="scrollToSection('content')">About us</a>
+          <a href="#contact" onclick="scrollToSection('contact')">Contact</a>
         </nav>
 
         <button class="mobile-menu-button" onclick="toggleMenu()">
@@ -42,9 +41,9 @@
       </div>
 
       <div class="mobile-menu">
-        <a href="#" onclick="mobileMenuClick('top')">Hem</a>
-        <a href="#content" onclick="mobileMenuClick('content')">Om oss</a>
-        <a href="#contact" onclick="mobileMenuClick('contact')">Kontakt</a>
+        <a href="#" onclick="mobileMenuClick('top')">Home</a>
+        <a href="#content" onclick="mobileMenuClick('content')">About us</a>
+        <a href="#contact" onclick="mobileMenuClick('contact')">Contact</a>
       </div>
     </header>
 
@@ -52,17 +51,21 @@
       <section class="hero">
         <div class="hero-overlay"></div>
         <div class="container hero-content">
-          <p class="hero-text animate-fade-in">
-            Identifierar och investerar i undervärderade noterade bolag.
+          <h1 class="hero-title animate-fade-in" style="animation-delay: 0.2s">
+            Strategically <span>investing</span> in undervalued listed companies
+          </h1>
+          <p class="hero-text animate-fade-in" style="animation-delay: 0.5s">
+            Bringing a disciplined approach to identify and capitalize on unique
+            investment opportunities.
           </p>
-          <div class="hero-buttons animate-fade-in">
-            <button class="btn-primary" onclick="scrollToSection('content')">
-              Läs mer om oss
+          <div class="animate-fade-in" style="animation-delay: 0.8s">
+            <button class="hero-button" onclick="scrollToSection('content')">
+              Learn more about us
             </button>
           </div>
         </div>
         <div class="scroll-indicator">
-          <button onclick="scrollToSection('content')" aria-label="Scrolla ner">
+          <button onclick="scrollToSection('content')" aria-label="Scroll down">
             <svg
               width="32"
               height="32"
@@ -82,159 +85,31 @@
       <div id="content" class="scroll-target">
         <section class="about-section">
           <div class="container">
-            <div class="text-center max-width-3xl">
-              <h2 class="section-title">Toremark Investments AB</h2>
-              <p class="section-text">
-                Toremark Investments AB är ett svenskt aktiebolag med fokus på
-                förvärv av aktier i noterade bolag, främst inom Norden,
-                Tyskland, Österrike och Schweiz.
-              </p>
-            </div>
-          </div>
-        </section>
+            <div class="max-width-3xl">
+              <h2 class="section-title font-serif">Toremark Investments AB</h2>
+              <div class="section-divider"></div>
 
-        <section class="investment-focus">
-          <div class="container">
-            <h2 class="section-title text-center">Investeringsfokus</h2>
-
-            <div class="focus-grid">
-              <div class="focus-card">
-                <h3 class="card-title">Geografiskt fokus</h3>
-                <div class="region-grid">
-                  <div class="region">Norden</div>
-                  <div class="region">Tyskland</div>
-                  <div class="region">Österrike</div>
-                  <div class="region">Schweiz</div>
+              <div class="about-content">
+                <div class="about-text">
+                  <p class="section-text">
+                    Toremark Investments AB is a Swedish limited company focused
+                    on acquiring shares in listed companies, primarily in the
+                    Nordic region, Germany, Austria, and Switzerland. We target
+                    companies with market cap below €4.5 billion, specializing
+                    in sectors such as
+                    <span class="highlight-text">Real Estate</span>,
+                    <span class="highlight-text">Finance</span>,
+                    <span class="highlight-text">Energy</span>,
+                    <span class="highlight-text">Shipping</span>, and
+                    <span class="highlight-text">Industry</span>.
+                  </p>
                 </div>
-                <div class="margin-top">
-                  <h4 class="card-subtitle">Investeringskriterier</h4>
-                  <div class="criteria">Market cap &lt; 4,5 miljarder €</div>
-                </div>
-              </div>
-
-              <div class="focus-card">
-                <h3 class="card-title">Primära sektorer</h3>
-                <div class="sectors-grid">
-                  <div class="sector">
-                    <!-- Building icon (Fastigheter) -->
-                    <svg
-                      class="sector-icon"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <rect
-                        x="4"
-                        y="2"
-                        width="16"
-                        height="20"
-                        rx="2"
-                        ry="2"
-                      ></rect>
-                      <path d="M9 22v-4h6v4"></path>
-                      <path d="M8 6h.01"></path>
-                      <path d="M16 6h.01"></path>
-                      <path d="M12 6h.01"></path>
-                      <path d="M12 10h.01"></path>
-                      <path d="M12 14h.01"></path>
-                      <path d="M16 10h.01"></path>
-                      <path d="M16 14h.01"></path>
-                      <path d="M8 10h.01"></path>
-                      <path d="M8 14h.01"></path>
-                    </svg>
-                    <span>Fastigheter</span>
-                  </div>
-                  <div class="sector">
-                    <!-- Briefcase icon (Finans) -->
-                    <svg
-                      class="sector-icon"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <rect
-                        x="2"
-                        y="7"
-                        width="20"
-                        height="14"
-                        rx="2"
-                        ry="2"
-                      ></rect>
-                      <path
-                        d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"
-                      ></path>
-                    </svg>
-                    <span>Finans</span>
-                  </div>
-                  <div class="sector">
-                    <!-- Line Chart icon (Energi) -->
-                    <svg
-                      class="sector-icon"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <path d="M3 3v18h18"></path>
-                      <path d="m19 9-5 5-4-4-3 3"></path>
-                    </svg>
-                    <span>Energi</span>
-                  </div>
-                  <div class="sector">
-                    <!-- Anchor icon (Shipping) -->
-                    <svg
-                      class="sector-icon"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <circle cx="12" cy="5" r="3"></circle>
-                      <line x1="12" y1="22" x2="12" y2="8"></line>
-                      <path d="M5 12H2a10 10 0 0 0 20 0h-3"></path>
-                    </svg>
-                    <span>Shipping</span>
-                  </div>
-                  <div class="sector">
-                    <!-- Factory icon (Industri) -->
-                    <svg
-                      class="sector-icon"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <path
-                        d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"
-                      ></path>
-                      <path d="M17 18h1"></path>
-                      <path d="M12 18h1"></path>
-                      <path d="M7 18h1"></path>
-                    </svg>
-                    <span>Industri</span>
-                  </div>
+                <div class="about-image-container">
+                  <img
+                    src="About.jpg"
+                    alt="Abstract financial visualization"
+                    class="about-image"
+                  />
                 </div>
               </div>
             </div>
@@ -243,11 +118,14 @@
 
         <section class="contact-section" id="contact">
           <div class="container">
-            <h2 class="section-title text-center">Kontakt</h2>
+            <div class="max-width-3xl">
+              <h2 class="section-title font-serif">Contact</h2>
+              <div class="section-divider"></div>
+            </div>
 
             <div class="contact-card">
               <div class="contact-info">
-                <h3 class="contact-title">Kontaktinformation</h3>
+                <h3 class="contact-title font-serif">Contact Information</h3>
 
                 <div class="contact-details">
                   <div class="contact-item">
@@ -258,7 +136,7 @@
                       height="20"
                       viewBox="0 0 24 24"
                       fill="none"
-                      stroke="#FA6406"
+                      stroke="currentColor"
                       stroke-width="2"
                       stroke-linecap="round"
                       stroke-linejoin="round"
@@ -282,7 +160,7 @@
                       height="20"
                       viewBox="0 0 24 24"
                       fill="none"
-                      stroke="#FA6406"
+                      stroke="currentColor"
                       stroke-width="2"
                       stroke-linecap="round"
                       stroke-linejoin="round"
@@ -303,7 +181,7 @@
                       height="20"
                       viewBox="0 0 24 24"
                       fill="none"
-                      stroke="#FA6406"
+                      stroke="currentColor"
                       stroke-width="2"
                       stroke-linecap="round"
                       stroke-linejoin="round"
@@ -326,18 +204,18 @@
               </div>
 
               <div class="contact-form">
-                <h3 class="contact-title">Kontakta oss</h3>
+                <h3 class="contact-title font-serif">Contact Us</h3>
                 <p class="contact-text">
-                  Har du frågor eller vill veta mer om Toremark Investments?
-                  Skicka oss ett meddelande så återkommer vi så snart som
-                  möjligt.
+                  Have questions or want to learn more about Toremark
+                  Investments? Send us a message and we'll get back to you as
+                  soon as possible.
                 </p>
 
                 <div class="contact-action">
-                  <a href="mailto:info@toremarks.com" class="btn-primary">
+                  <a href="mailto:info@toremarks.com" class="contact-button">
                     <!-- Mail icon -->
                     <svg
-                      class="btn-icon"
+                      class="contact-icon"
                       width="18"
                       height="18"
                       viewBox="0 0 24 24"
@@ -346,13 +224,14 @@
                       stroke-width="2"
                       stroke-linecap="round"
                       stroke-linejoin="round"
+                      style="margin-right: 8px"
                     >
                       <rect width="20" height="16" x="2" y="4" rx="2"></rect>
                       <path
                         d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"
                       ></path>
                     </svg>
-                    Skicka e-post
+                    Send Email
                   </a>
                 </div>
               </div>
@@ -363,42 +242,43 @@
     </main>
 
     <footer class="footer">
-      <div class="container">
+      <div class="container footer-container">
         <div class="footer-content">
           <div class="footer-section">
             <div class="footer-logo" onclick="scrollToTop()">
               <img src="Logo.png" alt="Toremark Investments Logo" />
             </div>
             <p class="footer-text">
-              Toremark Investments AB är ett svenskt aktiebolag med fokus på
-              förvärv av aktier i noterade bolag.
+              Toremark Investments AB is a Swedish limited company focused on
+              acquiring shares in listed companies.
             </p>
           </div>
 
           <div class="footer-section">
-            <h3 class="footer-heading">Snabblänkar</h3>
+            <h3 class="footer-heading font-serif">Quick Links</h3>
             <nav class="footer-nav">
-              <button onclick="scrollToTop()">Hem</button>
-              <button onclick="scrollToSection('content')">Om oss</button>
-              <button onclick="scrollToSection('contact')">Kontakt</button>
+              <button onclick="scrollToTop()">Home</button>
+              <button onclick="scrollToSection('content')">About us</button>
+              <button onclick="scrollToSection('contact')">Contact</button>
             </nav>
           </div>
 
           <div class="footer-section">
-            <h3 class="footer-heading">Kontakt</h3>
+            <h3 class="footer-heading font-serif">Contact</h3>
             <address class="footer-address">
+              <p>Stockholm, Sweden</p>
               <div class="footer-email">
                 <!-- Mail icon -->
                 <svg
-                  class="contact-icon"
                   width="16"
                   height="16"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="#FA6406"
+                  stroke="currentColor"
                   stroke-width="2"
                   stroke-linecap="round"
                   stroke-linejoin="round"
+                  style="margin-right: 8px"
                 >
                   <rect width="20" height="16" x="2" y="4" rx="2"></rect>
                   <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
@@ -420,8 +300,8 @@
 
         <div class="footer-bottom">
           <p>
-            &copy; <span id="currentYear"></span> Toremark Investments AB. Alla
-            rättigheter förbehållna.
+            &copy; <span id="currentYear"></span> Toremark Investments AB. All
+            rights reserved.
           </p>
         </div>
       </div>
