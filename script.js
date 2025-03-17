@@ -2,9 +2,30 @@
 const customCursor = document.getElementById('custom-cursor');
 const clickableElements = document.querySelectorAll('a, button, .logo, .clickable');
 
-// Update cursor position
-document.addEventListener('mousemove', (e) => {
+// Better mobile detection using User Agent
+const isMobileDevice = () => {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+};
+
+// Function to handle cursor visibility
+function updateCursorVisibility() {
   if (customCursor) {
+    if (isMobileDevice()) {
+      document.body.classList.add('mobile-device');
+      customCursor.style.display = 'none';
+    } else {
+      document.body.classList.remove('mobile-device');
+      customCursor.style.display = 'block';
+    }
+  }
+}
+
+// Initialize cursor visibility
+updateCursorVisibility();
+
+// Update cursor position (only on desktop)
+document.addEventListener('mousemove', (e) => {
+  if (customCursor && !isMobileDevice()) {
     customCursor.style.left = e.clientX + 'px';
     customCursor.style.top = e.clientY + 'px';
   }
@@ -13,13 +34,13 @@ document.addEventListener('mousemove', (e) => {
 // Enlarge cursor on hover over clickable elements
 clickableElements.forEach(element => {
   element.addEventListener('mouseenter', () => {
-    if (customCursor) {
+    if (customCursor && !isMobileDevice()) {
       customCursor.classList.add('hovering');
     }
   });
   
   element.addEventListener('mouseleave', () => {
-    if (customCursor) {
+    if (customCursor && !isMobileDevice()) {
       customCursor.classList.remove('hovering');
     }
   });
@@ -28,14 +49,14 @@ clickableElements.forEach(element => {
 // Hide cursor when leaving document
 document.addEventListener('mouseout', (e) => {
   if (e.relatedTarget === null) {
-    if (customCursor) {
+    if (customCursor && !isMobileDevice()) {
       customCursor.style.display = 'none';
     }
   }
 });
 
 document.addEventListener('mouseover', () => {
-  if (customCursor) {
+  if (customCursor && !isMobileDevice()) {
     customCursor.style.display = 'block';
   }
 });
@@ -44,6 +65,17 @@ document.addEventListener('mouseover', () => {
 const navbar = document.querySelector('.navbar');
 const mobileMenu = document.querySelector('.mobile-menu');
 const currentYearElement = document.getElementById('currentYear');
+const logo = document.querySelector('.logo');
+
+// Make logo click close mobile menu if open
+if (logo) {
+  logo.addEventListener('click', () => {
+    if (mobileMenu && mobileMenu.classList.contains('open')) {
+      mobileMenu.classList.remove('open');
+    }
+    scrollToTop();
+  });
+}
 
 // Set current year in footer
 if (currentYearElement) {
