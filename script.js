@@ -1,195 +1,156 @@
-// Custom cursor
-const customCursor = document.getElementById('custom-cursor');
-const clickableElements = document.querySelectorAll('a, button, .logo, .clickable');
+document.addEventListener('DOMContentLoaded', function() {
+  // Set current year in footer
+  document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-// Better mobile detection using User Agent
-const isMobileDevice = () => {
-  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-};
+  // Initialize cursor
+  initCustomCursor();
 
-// Function to handle cursor visibility
-function updateCursorVisibility() {
-  if (customCursor) {
-    if (isMobileDevice()) {
-      document.body.classList.add('mobile-device');
-      customCursor.style.display = 'none';
+  // Initialize navbar scroll listener
+  initNavbarScroll();
+});
+
+// Custom cursor functionality
+function initCustomCursor() {
+  const cursor = document.getElementById('custom-cursor');
+  const mobileMenu = document.querySelector('.mobile-menu');
+
+  // Don't initialize on touch devices
+  if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+    cursor.style.display = 'none';
+    return;
+  }
+
+  // Track if mouse is inside the window
+  let isMouseInWindow = false;
+
+  // Add active class to body when mouse enters window
+  document.addEventListener('mouseenter', function() {
+    isMouseInWindow = true;
+    document.body.classList.add('custom-cursor-active');
+    cursor.style.opacity = 1;
+  });
+
+  // Remove active class when mouse leaves window
+  document.addEventListener('mouseleave', function() {
+    isMouseInWindow = false;
+    document.body.classList.remove('custom-cursor-active');
+    cursor.style.opacity = 0;
+  });
+
+  document.addEventListener('mousemove', function(e) {
+    // Only update cursor if mouse is in window
+    if (isMouseInWindow) {
+      cursor.style.opacity = 1;
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+    }
+  });
+
+  // Add hover effect for all clickable elements
+  const clickableElements = document.querySelectorAll('a, button, [role="button"], .clickable, input[type="submit"], input[type="button"]');
+  clickableElements.forEach(function(element) {
+    element.addEventListener('mouseenter', function() {
+      cursor.classList.add('hovering');
+    });
+    element.addEventListener('mouseleave', function() {
+      cursor.classList.remove('hovering');
+    });
+  });
+
+  // Special class for mobile menu
+  document.addEventListener('mousemove', function(e) {
+    // Check if cursor is over the mobile menu when it's open
+    if (mobileMenu.classList.contains('open')) {
+      const rect = mobileMenu.getBoundingClientRect();
+      if (
+        e.clientX >= rect.left &&
+        e.clientX <= rect.right &&
+        e.clientY >= rect.top &&
+        e.clientY <= rect.bottom
+      ) {
+        cursor.classList.add('in-mobile-menu');
+      } else {
+        cursor.classList.remove('in-mobile-menu');
+      }
     } else {
-      document.body.classList.remove('mobile-device');
-      customCursor.style.display = 'block';
-    }
-  }
-}
-
-// Initialize cursor visibility
-updateCursorVisibility();
-
-// Update cursor position (only on desktop)
-document.addEventListener('mousemove', (e) => {
-  if (customCursor && !isMobileDevice()) {
-    customCursor.style.left = e.clientX + 'px';
-    customCursor.style.top = e.clientY + 'px';
-  }
-});
-
-// Enlarge cursor on hover over clickable elements
-clickableElements.forEach(element => {
-  element.addEventListener('mouseenter', () => {
-    if (customCursor && !isMobileDevice()) {
-      customCursor.classList.add('hovering');
+      cursor.classList.remove('in-mobile-menu');
     }
   });
+}
+
+// Navbar scroll functionality
+function initNavbarScroll() {
+  const navbar = document.querySelector('.navbar');
+  const hero = document.querySelector('.hero');
   
-  element.addEventListener('mouseleave', () => {
-    if (customCursor && !isMobileDevice()) {
-      customCursor.classList.remove('hovering');
-    }
-  });
-});
-
-// Hide cursor when leaving document
-document.addEventListener('mouseout', (e) => {
-  if (e.relatedTarget === null) {
-    if (customCursor && !isMobileDevice()) {
-      customCursor.style.display = 'none';
-    }
+  if (hero && navbar) {
+    window.addEventListener('scroll', function() {
+      const quarterHeroHeight = hero.offsetHeight / 4;
+      
+      if (window.scrollY > quarterHeroHeight) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
   }
-});
-
-document.addEventListener('mouseover', () => {
-  if (customCursor && !isMobileDevice()) {
-    customCursor.style.display = 'block';
-  }
-});
-
-// Navbar functionality
-const navbar = document.querySelector('.navbar');
-const mobileMenu = document.querySelector('.mobile-menu');
-const currentYearElement = document.getElementById('currentYear');
-const logo = document.querySelector('.logo');
-
-// Make logo click close mobile menu if open
-if (logo) {
-  logo.addEventListener('click', () => {
-    if (mobileMenu && mobileMenu.classList.contains('open')) {
-      mobileMenu.classList.remove('open');
-    }
-    scrollToTop();
-  });
 }
 
-// Set current year in footer
-if (currentYearElement) {
-  currentYearElement.textContent = new Date().getFullYear();
-}
-
-// Toggle mobile menu with animation
+// Mobile menu toggle
 function toggleMenu() {
-  if (mobileMenu) {
-    mobileMenu.classList.toggle('open');
-  }
+  const mobileMenu = document.querySelector('.mobile-menu');
+  mobileMenu.classList.toggle('open');
 }
 
-// Mobile menu item click handler with improved scrolling
-function mobileMenuClick(target) {
-  toggleMenu();
-  
-  if (target === 'top') {
-    scrollToTop();
-  } else {
-    scrollToSection(target);
-  }
-}
-
-// Handle navbar background on scroll
-window.addEventListener('scroll', () => {
-  const heroSection = document.querySelector('.hero');
-  
-  if (heroSection && navbar) {
-    const quarterHeroHeight = heroSection.offsetHeight / 4;
-    
-    if (window.scrollY > quarterHeroHeight) {
-      navbar.classList.add('scrolled');
-    } else {
-      navbar.classList.remove('scrolled');
-    }
-  }
-});
-
-// Scroll to top function
-function scrollToTop() {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
-}
-
-// Improved scroll to section function that exactly matches React version
+// Scroll to section
 function scrollToSection(sectionId) {
-  const element = document.getElementById(sectionId);
+  event.preventDefault();
   
-  if (element) {
-    // Get the mobile state for consistent behavior with React version
-    const isMobile = window.innerWidth < 768;
-    // Use the exact same navbar height values as in React version
-    const navbarHeight = isMobile ? 50 : 70;
-    
-    // Calculate element position exactly as in React version
-    const elementPosition = element.getBoundingClientRect().top;
+  const targetSection = document.getElementById(sectionId);
+  if (targetSection) {
+    const navbarHeight = window.innerWidth < 768 ? 60 : 70;
+    const elementPosition = targetSection.getBoundingClientRect().top;
     const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
     
-    // Perform the smooth scroll
     window.scrollTo({
       top: offsetPosition,
       behavior: 'smooth'
     });
   }
+  
+  // Close mobile menu if open
+  const mobileMenu = document.querySelector('.mobile-menu');
+  if (mobileMenu.classList.contains('open')) {
+    mobileMenu.classList.remove('open');
+  }
 }
 
-// Add event listeners to nav menu items
-document.addEventListener('DOMContentLoaded', () => {
-  // Desktop navigation menu items
-  const navMenuItems = document.querySelectorAll('.nav-menu a');
-  navMenuItems.forEach(item => {
-    item.addEventListener('click', function(e) {
-      e.preventDefault();
-      const target = this.getAttribute('href').replace('#', '');
-      if (target === '' || target === '#') {
-        scrollToTop();
-      } else {
-        scrollToSection(target);
-      }
-    });
-  });
-
-  // Mobile menu items - add specific handler for each item to ensure correct scrolling
-  const mobileItems = document.querySelectorAll('.mobile-menu a');
-  mobileItems.forEach(item => {
-    item.addEventListener('click', function(e) {
-      e.preventDefault();
-      const target = this.getAttribute('href').replace('#', '');
-      
-      // Close mobile menu first, then scroll after a small delay
-      // This matches the React behavior where menu closes before scrolling
-      mobileMenu.classList.remove('open');
-      
-      setTimeout(() => {
-        if (target === '' || target === '#') {
-          scrollToTop();
-        } else {
-          scrollToSection(target);
-        }
-      }, 300); // Short delay to allow menu animation to complete
-    });
-  });
-
-  // Check initial scroll position
-  const heroSection = document.querySelector('.hero');
+// Mobile menu click handler (combines toggle and scroll)
+function mobileMenuClick(targetId) {
+  event.preventDefault();
   
-  if (heroSection && navbar) {
-    const quarterHeroHeight = heroSection.offsetHeight / 4;
-    
-    if (window.scrollY > quarterHeroHeight) {
-      navbar.classList.add('scrolled');
-    }
+  if (targetId === 'top') {
+    scrollToTop();
+  } else {
+    scrollToSection(targetId);
   }
-});
+  
+  // Close the menu
+  const mobileMenu = document.querySelector('.mobile-menu');
+  mobileMenu.classList.remove('open');
+}
+
+// Scroll to top
+function scrollToTop() {
+  event.preventDefault();
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+  
+  // Close mobile menu if open
+  const mobileMenu = document.querySelector('.mobile-menu');
+  if (mobileMenu.classList.contains('open')) {
+    mobileMenu.classList.remove('open');
+  }
+}
