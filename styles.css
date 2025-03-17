@@ -18,6 +18,18 @@ body {
   line-height: 1.6;
   color: var(--black);
   scroll-behavior: smooth;
+}
+
+/* Hide default cursor when custom cursor is shown */
+body:not(.mobile-device) {
+  cursor: none;
+}
+
+/* Make sure clickable elements also have cursor: none */
+body:not(.mobile-device) a,
+body:not(.mobile-device) button,
+body:not(.mobile-device) .logo,
+body:not(.mobile-device) .clickable {
   cursor: none;
 }
 
@@ -64,7 +76,7 @@ button {
   }
 }
 
-/* Custom Cursor */
+/* Custom Cursor - only visible on desktop */
 #custom-cursor {
   width: 20px;
   height: 20px;
@@ -81,6 +93,13 @@ button {
   width: 30px;
   height: 30px;
   background-color: rgba(250, 100, 6, 0.6);
+}
+
+/* Hide custom cursor only on actual mobile devices - this will be handled by JavaScript */
+@media (hover: none) and (pointer: coarse) {
+  #custom-cursor {
+    display: none !important;
+  }
 }
 
 /* Navbar */
@@ -551,7 +570,7 @@ button {
   text-align: left;
   color: #D1D5DB;
   transition: color 0.3s;
-  font-size: 1rem; /* Increased font size to match React version */
+  font-size: 1rem;
 }
 
 .footer-nav button:hover {
