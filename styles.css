@@ -1,10 +1,11 @@
 /* Base Styles */
 :root {
-  --orange: rgb(250, 100, 6);
-  --black: rgb(30, 30, 30);
-  --darkgray: rgb(30, 30, 30);
+  --blue: rgb(114, 151, 197);
+  --black: rgb(10, 15, 19);
+  --darkgray: rgb(10, 15, 19);
   --lightgray: #F5F5F5;
   --white: #FFFFFF;
+  --container-padding: 1.5rem;
 }
 
 * {
@@ -14,30 +15,32 @@
 }
 
 body {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
   line-height: 1.6;
   color: var(--black);
   scroll-behavior: smooth;
 }
 
-/* Hide default cursor when custom cursor is shown */
-body:not(.mobile-device) {
-  cursor: none;
+/* Make sure all clickable elements have cursor: none only when custom cursor is active */
+body.custom-cursor-active a, 
+body.custom-cursor-active button, 
+body.custom-cursor-active [role="button"], 
+body.custom-cursor-active .clickable, 
+body.custom-cursor-active input[type="submit"], 
+body.custom-cursor-active input[type="button"] {
+  cursor: none !important;
 }
 
-/* Make sure clickable elements also have cursor: none */
-body:not(.mobile-device) a,
-body:not(.mobile-device) button,
-body:not(.mobile-device) .logo,
-body:not(.mobile-device) .clickable {
-  cursor: none;
+/* Hide the default cursor on the entire body when custom cursor is active */
+body.custom-cursor-active {
+  cursor: none !important;
 }
 
 .container {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 var(--container-padding);
 }
 
 a {
@@ -76,23 +79,46 @@ button {
   }
 }
 
-/* Custom Cursor - only visible on desktop */
+/* Font definitions */
+.font-sans {
+  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+}
+
+.font-serif {
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+/* Custom Cursor */
 #custom-cursor {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background-color: var(--orange);
+  background-color: var(--black); /* Default cursor color */
   position: fixed;
   pointer-events: none;
   z-index: 9999;
   transform: translate(-50%, -50%);
   transition: width 0.2s, height 0.2s, background-color 0.3s;
+  opacity: 0;
+}
+
+body.custom-cursor-active #custom-cursor {
+  opacity: 1;
 }
 
 #custom-cursor.hovering {
   width: 30px;
   height: 30px;
-  background-color: rgba(250, 100, 6, 0.6);
+  background-color: rgba(10, 15, 19, 0.6); /* Transparent version of the same color */
+}
+
+/* New style for when cursor is inside the mobile menu */
+#custom-cursor.in-mobile-menu {
+  background-color: rgb(114, 151, 197); /* Blue color when in mobile menu */
+}
+
+#custom-cursor.in-mobile-menu.hovering {
+  background-color: rgba(114, 151, 197, 0.6); /* Transparent version of blue for hovering in menu */
 }
 
 /* Hide custom cursor only on actual mobile devices - this will be handled by JavaScript */
@@ -113,7 +139,7 @@ button {
 }
 
 .navbar.scrolled {
-  background-color: var(--black);
+  background-color: var(--blue);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -121,7 +147,7 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  padding: 1rem var(--container-padding);
   position: relative;
 }
 
@@ -139,14 +165,15 @@ button {
 }
 
 .nav-menu a {
-  color: var(--white);
+  color: var(--black);
   margin-left: 2rem;
   transition: color 0.3s;
   font-size: 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 .nav-menu a:hover {
-  color: var(--orange);
+  color: var(--white);
 }
 
 .mobile-menu-button {
@@ -164,7 +191,7 @@ button {
 .hamburger-line {
   width: 24px;
   height: 2px;
-  background-color: var(--white);
+  background-color: var(--black);
   transition: all 0.3s ease;
 }
 
@@ -193,10 +220,11 @@ button {
   text-align: left;
   transition: color 0.3s;
   font-size: 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 .mobile-menu a:hover {
-  color: var(--orange);
+  color: var(--blue);
 }
 
 @media (min-width: 768px) {
@@ -215,10 +243,8 @@ button {
   display: flex;
   align-items: center;
   overflow: hidden;
-  background-image: url("Hero.jpg");
-  background-size: cover;
-  background-position: center;
-  color: var(--white);
+  background-color: var(--blue);
+  width: 100%;
 }
 
 .hero-overlay {
@@ -227,7 +253,10 @@ button {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(30, 30, 30, 0.4);
+  background-image: url("Hero.jpg");
+  background-size: cover;
+  background-position: center;
+  opacity: 0.2;
   z-index: 1;
 }
 
@@ -236,29 +265,41 @@ button {
   z-index: 2;
   padding-top: 4rem;
   max-width: 800px;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: normal;
+  margin-bottom: 1.5rem;
+  color: var(--white);
+  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
 }
 
 .hero-text {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   margin-bottom: 2rem;
   max-width: 600px;
+  color: var(--white);
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
-.btn-primary {
-  background-color: var(--orange);
+.hero-button {
+  background-color: transparent;
+  border: 2px solid var(--white);
   color: var(--white);
-  padding: 0.75rem 1.5rem;
+  padding: 1rem 1.75rem;
+  font-size: 1.125rem;
   display: inline-flex;
   align-items: center;
   transition: background-color 0.2s;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-weight: bold;
 }
 
-.btn-primary:hover {
-  background-color: rgba(250, 100, 6, 0.9);
-}
-
-.btn-icon {
-  margin-right: 0.5rem;
+.hero-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .scroll-indicator {
@@ -294,13 +335,6 @@ button {
 .animate-fade-in {
   opacity: 0;
   animation: fadeIn 0.8s forwards;
-  animation-delay: 0.5s;
-}
-
-.hero-buttons {
-  opacity: 0;
-  animation: fadeIn 0.8s forwards;
-  animation-delay: 0.8s;
 }
 
 @keyframes fadeIn {
@@ -309,8 +343,21 @@ button {
 }
 
 @media (min-width: 768px) {
+  .hero-title {
+    font-size: 3rem;
+  }
   .hero-text {
-    font-size: 2rem;
+    font-size: 1.5rem;
+  }
+  
+  .hero-content {
+    padding-left: var(--container-padding);
+    margin-left: 0;
+  }
+  
+  .container {
+    padding-left: var(--container-padding);
+    padding-right: var(--container-padding);
   }
 }
 
@@ -322,112 +369,83 @@ button {
 
 .section-title {
   font-size: 1.875rem;
-  font-weight: 700;
+  font-weight: 400;
   margin-bottom: 1.5rem;
+  color: var(--black);
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 .section-text {
   font-size: 1.125rem;
-  color: #4B5563;
+  color: var(--black);
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+.highlight-text {
+  color: var(--blue);
+  font-weight: 500;
+}
+
+.section-divider {
+  width: 80px;
+  height: 4px;
+  background-color: var(--blue);
+  margin-bottom: 2.5rem;
+}
+
+.about-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.about-image-container {
+  position: relative;
+  overflow: hidden;
+  margin-top: 2rem;
+  background-color: var(--blue);
+}
+
+.about-image-container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: var(--blue);
+  opacity: 0.2;
+  pointer-events: none;
 }
 
 @media (min-width: 768px) {
   .about-section {
-    padding: 4rem 1.5rem;
+    padding: 4rem 1rem;
   }
   
   .section-title {
     font-size: 2.25rem;
     margin-bottom: 1.5rem;
   }
-}
-
-/* Investment Focus */
-.investment-focus {
-  padding: 4rem 1rem;
-  background-color: var(--white);
-}
-
-.focus-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 3rem;
-  margin-top: 2.5rem;
-}
-
-.focus-card {
-  background-color: var(--lightgray);
-  padding: 2rem;
-}
-
-.card-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-}
-
-.card-subtitle {
-  font-size: 1.125rem;
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-}
-
-.region-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-}
-
-.region {
-  background-color: var(--black);
-  color: var(--white);
-  padding: 1rem;
-  text-align: center;
-}
-
-.criteria {
-  background-color: var(--black);
-  color: var(--white);
-  padding: 1rem;
-  text-align: center;
-}
-
-.sectors-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-}
-
-.sector {
-  background-color: var(--black);
-  color: var(--white);
-  padding: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.sector-icon {
-  margin-right: 0.5rem;
-}
-
-@media (min-width: 768px) {
-  .investment-focus {
-    padding: 4rem 1.5rem;
+  
+  .about-content {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
   }
   
-  .focus-grid {
-    grid-template-columns: 1fr 1fr;
+  .about-text {
+    width: 50%;
   }
   
-  .sectors-grid {
-    grid-template-columns: 1fr 1fr;
+  .about-image-container {
+    width: 50%;
+    margin-top: 0;
+    height: 100%;
+    display: flex;
   }
 }
 
 /* Contact Section */
 .contact-section {
-  padding: 2.5rem 1rem 4rem;
+  padding: 4rem 1rem;
   background-color: var(--lightgray);
 }
 
@@ -442,92 +460,84 @@ button {
 }
 
 .contact-info {
-  background-color: var(--black);
+  background-color: var(--blue);
   color: var(--white);
-  padding: 1.25rem;
+  padding: 2rem;
 }
 
 .contact-form {
-  padding: 1.25rem;
+  padding: 2rem;
 }
 
 .contact-title {
   font-size: 1.25rem;
-  font-weight: 600;
+  font-weight: 400;
   margin-bottom: 1rem;
-  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 .contact-details {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1.25rem;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 .contact-item {
   display: flex;
   align-items: flex-start;
-  justify-content: center;
 }
 
 .contact-icon {
-  margin-right: 0.5rem;
-  color: var(--orange);
+  margin-right: 0.75rem;
+  color: var(--white);
   flex-shrink: 0;
 }
 
 .contact-text {
   margin-bottom: 1.5rem;
-  color: #4B5563;
-  text-align: center;
+  color: var(--black);
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 .contact-action {
   display: flex;
-  justify-content: center;
+}
+
+.contact-button {
+  background-color: var(--blue);
+  color: var(--white);
+  padding: 0.75rem 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+.contact-button:hover {
+  background-color: rgba(114, 151, 197, 0.9);
 }
 
 @media (min-width: 768px) {
   .contact-section {
-    padding: 4rem 1.5rem;
+    padding: 4rem 1rem;
   }
   
   .contact-card {
     grid-template-columns: 1fr 1fr;
   }
-  
-  .contact-info {
-    padding: 2rem;
-  }
-  
-  .contact-form {
-    padding: 2rem;
-  }
-  
-  .contact-title {
-    text-align: left;
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  .contact-item {
-    justify-content: flex-start;
-  }
-  
-  .contact-text {
-    text-align: left;
-  }
-  
-  .contact-action {
-    justify-content: flex-start;
-  }
 }
 
 /* Footer */
 .footer {
-  background-color: var(--black);
-  color: var(--white);
-  padding: 3rem 1rem;
+  background-color: var(--blue);
+  color: var(--black);
+  padding: 4rem 0 2rem;
+  width: 100%;
+}
+
+.footer-container {
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
 }
 
 .footer-content {
@@ -545,19 +555,21 @@ button {
 .footer-logo img {
   height: 50px;
   width: auto;
-  cursor: pointer;
 }
 
 .footer-text {
   font-size: 0.875rem;
-  color: #D1D5DB;
+  color: var(--black);
   max-width: 400px;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 .footer-heading {
   font-size: 1.125rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
+  color: var(--black);
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 .footer-nav {
@@ -568,31 +580,33 @@ button {
 
 .footer-nav button {
   text-align: left;
-  color: #D1D5DB;
+  color: var(--black);
   transition: color 0.3s;
   font-size: 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 .footer-nav button:hover {
-  color: var(--orange);
+  color: var(--white);
 }
 
 .footer-address {
   font-style: normal;
-  color: #D1D5DB;
+  color: var(--black);
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 .footer-email {
   display: flex;
   align-items: center;
-  color: #D1D5DB;
+  color: var(--black);
 }
 
 .footer-email a:hover {
-  color: var(--orange);
+  color: var(--white);
 }
 
 .footer-website {
@@ -600,25 +614,26 @@ button {
 }
 
 .footer-website a {
-  color: var(--orange);
+  color: var(--black);
 }
 
 .footer-website a:hover {
-  text-decoration: underline;
+  color: var(--white);
 }
 
 .footer-bottom {
   margin-top: 2rem;
   padding-top: 2rem;
-  border-top: 1px solid #374151;
+  border-top: 1px solid rgba(10, 15, 19, 0.2);
   text-align: center;
   font-size: 0.875rem;
-  color: #9CA3AF;
+  color: var(--black);
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 @media (min-width: 768px) {
   .footer {
-    padding: 3rem 1.5rem;
+    padding: 4rem 0 2rem;
   }
   
   .footer-content {
