@@ -352,7 +352,7 @@ body.custom-cursor-active #custom-cursor {
   
   .hero-content {
     padding-left: var(--container-padding);
-    margin-left: 0;
+    margin-left: 8rem;
   }
   
   .container {
